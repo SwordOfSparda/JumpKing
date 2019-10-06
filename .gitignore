@@ -1,0 +1,20 @@
+# Ignore files for macosx
+.DS_Store
+
+# Ignore files build by xcode
+*.mode*v*
+*.pbxuser
+*.xcbkptlist
+*.xcworkspacedata
+*.xcuserstate
+*.xccheckout
+xcschememanagement.plist
+._.*
+
+
+# Ignore files for unity temp.
+trunk/Library
+trunk/Temp
+
+# Ignore files for project special.
+trunk/Assets/Resources/Map.meta
