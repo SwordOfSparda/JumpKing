@@ -75,7 +75,9 @@ public class EntityHero : MonoBehaviour
     System.Int32 d_move_x = 0;
 
     // m / s
-    double d_direction_x_velocity = 20.0;
+    double d_direction_x_velocity = 50.0;
+
+    double d_direction_degree = 60.0;
 
     System.Int32 d_direction_x = 0;
 
@@ -91,6 +93,9 @@ public class EntityHero : MonoBehaviour
             double _x = this.d_move_x * this.d_move_x_impulse;
             double _y = this.d_move_y_impulse * _microseconds / 1000000.0;
             double _z = 0.0;
+
+            // direction degree.
+            _x = (this.d_move_x * _y) / Mathf.Tan((float)(this.d_direction_degree * 3.1415926 / 180.0));
 
             Vector3 _impulse = new Vector3((float)_x, (float)_y, (float)_z);
 
