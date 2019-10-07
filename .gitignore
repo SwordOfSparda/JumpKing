@@ -16,5 +16,9 @@ xcschememanagement.plist
 trunk/Library
 trunk/Temp
 
+trunk/.vs
+trunk/obj
+trunk/Assembly-CSharp.csproj
+
 # Ignore files for project special.
 trunk/Assets/Resources/Map.meta
