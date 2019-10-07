@@ -29,8 +29,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8356255267270888024}
   - {fileID: 6277497652351440674}
+  - {fileID: 8356255267270888024}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -73,7 +73,7 @@ GameObject:
   - component: {fileID: 6277497652351440674}
   - component: {fileID: 637626703992743736}
   - component: {fileID: 4631008619463070304}
-  - component: {fileID: 6968609824606200127}
+  - component: {fileID: 4972315353983971513}
   m_Layer: 0
   m_Name: HeroFoot
   m_TagString: Untagged
@@ -89,11 +89,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2443452230139035117}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.45, z: 0}
+  m_LocalPosition: {x: 0, y: -0.33, z: 0}
   m_LocalScale: {x: 0.3, y: 0.1, z: 0.2}
   m_Children: []
   m_Father: {fileID: 1174914263085888995}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &637626703992743736
 MeshFilter:
@@ -140,8 +140,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &6968609824606200127
-BoxCollider:
+--- !u!136 &4972315353983971513
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -150,9 +150,10 @@ BoxCollider:
   m_Material: {fileID: 13400000, guid: 05a250a0293c74bdf9c7ca02c921d5a6, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.59
+  m_Height: 0
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!1 &8617732105541462943
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,7 +165,7 @@ GameObject:
   - component: {fileID: 8356255267270888024}
   - component: {fileID: 6857829362850407633}
   - component: {fileID: 6215405825369450480}
-  - component: {fileID: 7213091148986477520}
+  - component: {fileID: 5888701563134074217}
   m_Layer: 0
   m_Name: HeroBody
   m_TagString: Untagged
@@ -180,11 +181,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8617732105541462943}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.05, z: 0}
-  m_LocalScale: {x: 0.45, y: 0.9, z: 0.2}
+  m_LocalPosition: {x: 0, y: -0.03, z: 0}
+  m_LocalScale: {x: 0.45, y: 0.56, z: 0.2}
   m_Children: []
   m_Father: {fileID: 1174914263085888995}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &6857829362850407633
 MeshFilter:
@@ -231,8 +232,8 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &7213091148986477520
-BoxCollider:
+--- !u!136 &5888701563134074217
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -241,6 +242,7 @@ BoxCollider:
   m_Material: {fileID: 13400000, guid: e4dd08914f08043ec8b86d75b7adc354, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.5
+  m_Height: 1.1087754
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.054388598, z: 0}

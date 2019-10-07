@@ -63,10 +63,10 @@ public class EntityHero : MonoBehaviour
     // hotkey dictionary.
     Dictionary<System.UInt32, System.UInt32> d_dic = new Dictionary<System.UInt32, System.UInt32>();
 
-    double d_move_x_impulse = 4.0;
+    double d_move_x_impulse = 0.5;
 
     // impulse = kg * s / s^2   
-    double d_move_y_impulse = 9.8;
+    double d_move_y_impulse = 15;
 
     // default is 2s = 2000000
     System.UInt64 d_jump_limt_time_us = 1000000;
@@ -95,7 +95,7 @@ public class EntityHero : MonoBehaviour
             double _z = 0.0;
 
             // direction degree.
-            _x = (this.d_move_x * _y) / Mathf.Tan((float)(this.d_direction_degree * 3.1415926 / 180.0));
+            _x = (_x * _y) / Mathf.Tan((float)(this.d_direction_degree * 3.1415926 / 180.0));
 
             Vector3 _impulse = new Vector3((float)_x, (float)_y, (float)_z);
 
