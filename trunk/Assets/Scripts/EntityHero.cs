@@ -66,16 +66,16 @@ public class EntityHero : MonoBehaviour
     double d_move_x_impulse = 0.5;
 
     // impulse = kg * s / s^2   
-    double d_move_y_impulse = 15;
+    double d_move_y_impulse = 50;
 
     // default is 2s = 2000000
-    System.UInt64 d_jump_limt_time_us = 1000000;
+    System.UInt64 d_jump_limt_time_us = 300000;
 
     System.Int32 d_move_y = 0;
     System.Int32 d_move_x = 0;
 
     // m / s
-    double d_direction_x_velocity = 50.0;
+    double d_direction_x_velocity = 100.0;
 
     double d_direction_degree = 60.0;
 
@@ -85,6 +85,7 @@ public class EntityHero : MonoBehaviour
     {
         this.d_dic.Add(type, keycode);
     }
+
 
     public void JumpByImpulse(System.UInt64 _microseconds)
     {
