@@ -86,9 +86,22 @@ public class EntityHero : MonoBehaviour
         this.d_dic.Add(type, keycode);
     }
 
+    private bool _isFlying;
+    public bool IsFlying
+    {
+        get
+        {
+            return _isFlying;
+        }
+    }
+
 
     public void JumpByImpulse(System.UInt64 _microseconds)
     {
+        if(_isFlying)
+        {
+            return;
+        }
         if (1 == this.d_move_y)
         {
             double _x = this.d_move_x * this.d_move_x_impulse;
@@ -133,6 +146,10 @@ public class EntityHero : MonoBehaviour
 
     public void ProcessControl(System.UInt64 _microseconds)
     {
+        if(_isFlying)
+        {
+            return;
+        }
         // Input.GetKeyXXX 只会触发单次
 
         // 按下 跳跃 
@@ -221,4 +238,42 @@ public class EntityHero : MonoBehaviour
             this.ProcessMove();
         }
     }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        GameObject obj = collision.gameObject;
+        if(obj!= null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        {
+            _isFlying = false;
+        }
+
+    }
+    void OnCollisionExit(Collision collision)
+    {
+        GameObject obj = collision.gameObject;
+        if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        {
+            _isFlying = true;
+        }
+
+    }
+    void OnCollisionStay(Collision collision)
+    {
+
+
+    }
+
+    //
+    private void OnTriggerEnter(Collider other)
+    {
+
+    }
+    private void OnTriggerExit(Collider other)
+    {
+
+    }
+    private void OnTriggerStay(Collider other)
+    {
+    }
+
 }
