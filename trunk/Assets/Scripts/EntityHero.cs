@@ -75,7 +75,7 @@ public class EntityHero : MonoBehaviour
     System.Int32 d_move_x = 0;
 
     // m / s
-    double d_direction_x_velocity = 100.0;
+    double d_direction_x_velocity = 200.0;
 
     double d_direction_degree = 60.0;
 
