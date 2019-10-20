@@ -84,6 +84,9 @@ public class EntityHero : MonoBehaviour
 
             Vector3 _impulse = new Vector3((float)_x, (float)_y, (float)_z);
 
+            // this.d_rigidbody.drag = 0;
+            // 飞起来的话，就受到物理效果
+            //this.d_rigidbody.isKinematic = false;
             // add a Impulse to rigidbody.
             this.d_rigidbody.AddForce(_impulse, ForceMode.Impulse);
 
@@ -118,7 +121,9 @@ public class EntityHero : MonoBehaviour
             _velocity.y = 0.0f;
             _velocity.z = 0.0f;
 
-            _s = _velocity * (float)_t;            
+            _s = _velocity * (float)_t;
+
+            //this.d_rigidbody.isKinematic = false;
 
             this.d_rigidbody.MovePosition(_position + _s);
 
@@ -223,63 +228,111 @@ public class EntityHero : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        Vector3 _normalFloor = new Vector3(0, 1, 0);
-        ContactPoint cp = collision.GetContact(0);
-        if(cp.normal == _normalFloor)
-        {
-            // 速度归0
-            this.d_rigidbody.velocity = new Vector3(0, 0, 0);
-        }
-
-
-        //GameObject obj = collision.gameObject;
-        //if(obj!= null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        //// Vector3 _normalFloor = new Vector3(0, 1, 0);
+        //ContactPoint cp = collision.GetContact(0);
+        //float th = Mathf.Atan2(cp.normal.y, cp.normal.x);
+        //float d = th * 180.0f / 3.1415926f;
+        //// 法线约为竖直线，表明这是地板
+        //if (Mathf.Abs(d - 90.0f) < 0.001f)
         //{
-        //    Vector3 _velocity = this.d_rigidbody.velocity;
-
-        //    if (_velocity.y >= 12.0)
-        //    {
-        //        Debug.Log("坠落");
-        //    }
-        //    else
-        //    {
-        //        Debug.Log("站稳");
-        //    }
+        //    // 速度归0
+        //    this.d_rigidbody.velocity = new Vector3(0, 0, 0);
+        //    //this.d_rigidbody.angularVelocity = new Vector3(0, 0, 0);
+        //    //this.d_rigidbody.isKinematic = true;
+        //    //this.d_rigidbody.drag = float.PositiveInfinity;
 
         //    // 碰到了地板，站在地板上
         //    this.d_isFlying = false;
 
-        //    // 水平速度归0
-        //    this.d_rigidbody.velocity = new Vector3(0, 0, 0);
+        //    Debug.Log("落到地板上");
         //}
-        //if (obj != null && (obj.name.Equals(ConfigWord.Entity_ner_l) || obj.name.Equals(ConfigWord.Entity_ner_l)))
+
+        //if (Mathf.Abs(d) < 0.001f || Mathf.Abs(d - 180) < 0.001f || Mathf.Abs(d + 180) < 0.001f)
         //{
-        //    // 碰到左边和右边的墙，水平速度归0
-        //    // 不归0的话会在边界颤抖
-
-        //    Vector3 _velocity = this.d_rigidbody.velocity;
-
-        //    // 水平速度归0
+        //    // 碰到了竖直墙
         //    this.d_rigidbody.velocity = new Vector3(0, 0, 0);
         //}
+
+        GameObject obj = collision.gameObject;
+        if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        {
+            Vector3 _velocity = this.d_rigidbody.velocity;
+
+            if (_velocity.y >= 12.0)
+            {
+                Debug.Log("坠落");
+            }
+            else
+            {
+                Debug.Log("站稳");
+            }
+
+            // 碰到了地板，站在地板上
+            this.d_isFlying = false;
+
+            // 水平速度归0
+            this.d_rigidbody.velocity = new Vector3(0, 0, 0);
+        }
+        if (obj != null && (obj.name.Equals(ConfigWord.Entity_ner_l) || obj.name.Equals(ConfigWord.Entity_ner_l)))
+        {
+            // 碰到左边和右边的墙，水平速度归0
+            // 不归0的话会在边界颤抖
+
+            Vector3 _velocity = this.d_rigidbody.velocity;
+
+            // 水平速度归0
+            this.d_rigidbody.velocity = new Vector3(0, 0, 0);
+        }
     }
     void OnCollisionExit(Collision collision)
     {
-        //GameObject obj = collision.gameObject;
-        //if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
-        //{
-        //    // 离开了地板
-        //    // this.d_isFlying = true;
-        //}
+        //Vector3 _velocity = new Vector3();
+
+        //// s = v * t.
+        //_velocity.x = (float)(this.d_direction_x * this.d_XVelocity);
+        //_velocity.y = 0.0f;
+        //_velocity.z = 0.0f;
+
+        //this.d_rigidbody.velocity = _velocity;
+
+
+        //// 离开了地板，漂浮在空中
+        //this.d_isFlying = true;
+
+        GameObject obj = collision.gameObject;
+        if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        {
+            // 离开了地板
+            this.d_isFlying = true;
+        }
     }
     void OnCollisionStay(Collision collision)
     {
-        //GameObject obj = collision.gameObject;
-        //if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        //ContactPoint cp = collision.GetContact(0);
+        //float th = Mathf.Atan2(cp.normal.y, cp.normal.x);
+        //float d = th * 180.0f / 3.1415926f;
+        //// 法线约为竖直线，表明这是地板
+        //if (Mathf.Abs(d - 90.0f) < 0.001f)
         //{
+        //    // Vector3 _velocity = this.d_rigidbody.velocity;
+        //    // 速度归0
+        //    // this.d_rigidbody.velocity = new Vector3(0, _velocity.y, 0);
+        //    //this.d_rigidbody.angularVelocity = new Vector3(0, 0, 0);
+
         //    // 碰到了地板，站在地板上
-        //    // this.d_isFlying = false;
+        //    this.d_isFlying = false;
+
+        //    // Debug.Log("落到地板上");
         //}
+        //// 碰到了地板，站在地板上
+        //this.d_isFlying = false;
+
+        GameObject obj = collision.gameObject;
+        if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        {
+            // 碰到了地板，站在地板上
+            this.d_isFlying = false;
+        }
     }
 
     //
