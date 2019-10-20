@@ -42,7 +42,6 @@ public class EntityDiBan : MonoBehaviour
         b.localScale = new Vector3(scale.x, 1 / curScale.y, scale.z);
         b.localPosition = new Vector3(0, -(curScale.y * 0.5f / 2 - 0.1f) / curScale.y, pos.z);
 
-
     }
     Transform _cur;
     // Start is called before the first frame update

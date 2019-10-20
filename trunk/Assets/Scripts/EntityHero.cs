@@ -95,6 +95,7 @@ public class EntityHero : MonoBehaviour
 
             this.d_direction_x = 0;
         }
+       
     }
 
     public void ProcessMove()
