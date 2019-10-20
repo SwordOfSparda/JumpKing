@@ -202,7 +202,7 @@ public class EntityHero : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         System.UInt64 _microseconds = this.d_clock.Microseconds();
 
