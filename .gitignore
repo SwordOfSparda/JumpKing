@@ -19,6 +19,7 @@ trunk/Temp
 trunk/.vs
 trunk/obj
 trunk/Assembly-CSharp.csproj
+trunk/Assembly-CSharp-Editor.csproj
 
 # Ignore files for project special.
 trunk/Assets/Resources/Map.meta
