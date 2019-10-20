@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Operation : MonoBehaviour
+public class EventSystemKeypad : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()

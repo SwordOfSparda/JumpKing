@@ -2,56 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum HeroAction
-{
-    HA_MOVE_L = 1,
-    HA_MOVE_R = 2,
-    HA_JUMP_L = 3,
-    HA_JUMP_R = 4,
-    HA_JUMP_C = 5,
-};
-
-public enum HeroControlHotKey
-{
-    HCH_L = 1,// 向左
-    HCH_R = 2,// 向右
-    HCH_J = 3,// 起跳
-};
-
-static class Time
-{
-    // return the current timecode - 1970/1/1 00:00:00.
-    static public System.UInt64 CurrentUsec()
-    {
-        // 1970/1/1 00:00:00 = 621355968000000000 Ticks
-        return ((System.UInt64)System.DateTime.Now.ToUniversalTime().Ticks - 621355968000000000) / 10;
-    }
-}
-
-public class Clock
-{
-    System.UInt64 d_start = 0;
-
-    /** Resets clock */
-    public void Reset()
-    {
-        this.d_start = (System.UInt64)System.DateTime.Now.ToUniversalTime().Ticks;
-    }
-
-    /** Returns milliseconds since initialisation or last reset */
-    public System.UInt64 Milliseconds()
-    {
-        // 1970/1/1 00:00:00 = 621355968000000000 Ticks
-        return ((System.UInt64)System.DateTime.Now.ToUniversalTime().Ticks - this.d_start) / 10000;
-    }
-    /** Returns microseconds since initialisation or last reset */
-    public System.UInt64 Microseconds()
-    {
-        // 1970/1/1 00:00:00 = 621355968000000000 Ticks
-        return ((System.UInt64)System.DateTime.Now.ToUniversalTime().Ticks - this.d_start) / 10;
-    }
-}
-
 public class EntityHero : MonoBehaviour
 {
     // we need a clock for time record.
@@ -60,56 +10,77 @@ public class EntityHero : MonoBehaviour
     // weak ref for Rigidbody Component.
     Rigidbody d_rigidbody = null;
 
-    // hotkey dictionary.
-    Dictionary<System.UInt32, System.UInt32> d_dic = new Dictionary<System.UInt32, System.UInt32>();
-
-    double d_move_x_impulse = 0.5;
-
+    double d_JumpXImpulse = 5.6;
     // impulse = kg * s / s^2   
-    double d_move_y_impulse = 50;
+    double d_JumpYImpulse = 49;
 
-    // default is 2s = 2000000
-    System.UInt64 d_jump_limt_time_us = 300000;
+    // default is 250us = 250000
+    System.UInt64 d_JumpLimtTimeUS = 300000;
 
     System.Int32 d_move_y = 0;
     System.Int32 d_move_x = 0;
 
     // m / s
-    double d_direction_x_velocity = 200.0;
+    double d_XVelocity = 2.5;
 
-    double d_direction_degree = 60.0;
+    double d_JumpDirectionDegree = 72.0;
 
     System.Int32 d_direction_x = 0;
 
-    public void SetHotKey(System.UInt32 type, System.UInt32 keycode)
+    private bool d_isFlying;
+
+    // 最大蓄力事件，默认是250000微秒
+    public void SetJumpLimtTimeUS(System.UInt64 _microsecond)
     {
-        this.d_dic.Add(type, keycode);
+        this.d_JumpLimtTimeUS = _microsecond;
     }
 
-    private bool _isFlying;
+    public void SetJumpXImpulse(double _yImpulse)
+    {
+        this.d_JumpXImpulse = _yImpulse;
+    }
+    // y轴冲量蓄力效率，默认是65
+    public void SetJumpYImpulse(double _yImpulse)
+    {
+        this.d_JumpYImpulse = _yImpulse;
+    }
+
+    // x轴水平移动速度，默认是200米每秒。
+    public void SetXVelocity(double _xVelocity)
+    {
+        this.d_XVelocity = _xVelocity;
+    }
+
+    // 起跳固定夹角，默认是75度。
+    public void SetJumpDirectionDegree(double _dDegree)
+    {
+        this.d_JumpDirectionDegree = _dDegree;
+    }
+
+    
     public bool IsFlying
     {
         get
         {
-            return _isFlying;
+            return this.d_isFlying;
         }
     }
 
 
     public void JumpByImpulse(System.UInt64 _microseconds)
     {
-        if(_isFlying)
+        if(this.d_isFlying)
         {
             return;
         }
         if (1 == this.d_move_y)
         {
-            double _x = this.d_move_x * this.d_move_x_impulse;
-            double _y = this.d_move_y_impulse * _microseconds / 1000000.0;
+            double _x = this.d_move_x * this.d_JumpXImpulse;
+            double _y = this.d_JumpYImpulse * _microseconds / 1000000.0;
             double _z = 0.0;
 
             // direction degree.
-            _x = (_x * _y) / Mathf.Tan((float)(this.d_direction_degree * 3.1415926 / 180.0));
+            // _x = (this.d_move_x * _y) / Mathf.Tan((float)(this.d_JumpDirectionDegree * 3.1415926 / 180.0));
 
             Vector3 _impulse = new Vector3((float)_x, (float)_y, (float)_z);
 
@@ -128,17 +99,29 @@ public class EntityHero : MonoBehaviour
 
     public void ProcessMove()
     {
+        if(this.d_isFlying)
+        {
+            return;
+        }
         if (0 == this.d_move_y && 0 != this.d_move_x)
         {
-            double _x = this.d_direction_x * this.d_direction_x_velocity * 0.001;
-            double _y = 0.0;
-            double _z = 0.0;
-
-            Vector3 _velocity = new Vector3((float)_x, (float)_y, (float)_z);
+            double _t = UnityEngine.Time.fixedDeltaTime;
 
             Vector3 _position = this.d_rigidbody.position;
 
-            this.d_rigidbody.MovePosition(_position + _velocity);
+            Vector3 _velocity = new Vector3();
+            Vector3 _s = new Vector3();
+
+            // s = v * t.
+            _velocity.x = (float)(this.d_direction_x * this.d_XVelocity);
+            _velocity.y = 0.0f;
+            _velocity.z = 0.0f;
+
+            _s = _velocity * (float)_t;            
+
+            this.d_rigidbody.MovePosition(_position + _s);
+
+            this.d_rigidbody.velocity = _velocity;
 
             Debug.Log("移动");
         }
@@ -146,10 +129,6 @@ public class EntityHero : MonoBehaviour
 
     public void ProcessControl(System.UInt64 _microseconds)
     {
-        if(_isFlying)
-        {
-            return;
-        }
         // Input.GetKeyXXX 只会触发单次
 
         // 按下 跳跃 
@@ -227,9 +206,11 @@ public class EntityHero : MonoBehaviour
     {
         System.UInt64 _microseconds = this.d_clock.Microseconds();
 
-        if (1 == this.d_move_y && _microseconds >= this.d_jump_limt_time_us)
+        if (1 == this.d_move_y && _microseconds >= this.d_JumpLimtTimeUS)
         {
-            this.JumpByImpulse(this.d_jump_limt_time_us);
+            this.JumpByImpulse(this.d_JumpLimtTimeUS);
+
+            this.d_move_y = 0;
         }
         else
         {
@@ -244,23 +225,51 @@ public class EntityHero : MonoBehaviour
         GameObject obj = collision.gameObject;
         if(obj!= null && obj.name.Equals(ConfigWord.Entity_ner_t))
         {
-            _isFlying = false;
-        }
+            Vector3 _velocity = this.d_rigidbody.velocity;
 
+            if (_velocity.y >= 12.0)
+            {
+                Debug.Log("坠落");
+            }
+            else
+            {
+                Debug.Log("站稳");
+            }
+
+            // 碰到了地板，站在地板上
+            this.d_isFlying = false;
+
+            // 水平速度归0
+            this.d_rigidbody.velocity = new Vector3(0, 0, 0);
+        }
+        if (obj != null && (obj.name.Equals(ConfigWord.Entity_ner_l) || obj.name.Equals(ConfigWord.Entity_ner_l)))
+        {
+            // 碰到左边和右边的墙，水平速度归0
+            // 不归0的话会在边界颤抖
+
+            Vector3 _velocity = this.d_rigidbody.velocity;
+
+            // 水平速度归0
+            this.d_rigidbody.velocity = new Vector3(0, 0, 0);
+        }
     }
     void OnCollisionExit(Collision collision)
     {
         GameObject obj = collision.gameObject;
         if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
         {
-            _isFlying = true;
+            // 离开了地板
+            this.d_isFlying = true;
         }
-
     }
     void OnCollisionStay(Collision collision)
     {
-
-
+        GameObject obj = collision.gameObject;
+        if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        {
+            // 碰到了地板，站在地板上
+            this.d_isFlying = false;
+        }
     }
 
     //
@@ -274,6 +283,7 @@ public class EntityHero : MonoBehaviour
     }
     private void OnTriggerStay(Collider other)
     {
+
     }
 
 }
