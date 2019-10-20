@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 3009997710967818506}
   - component: {fileID: 4102921030239377768}
   - component: {fileID: 5105272599462898388}
+  - component: {fileID: 2912874090207945249}
   m_Layer: 0
   m_Name: DiBan
   m_TagString: Untagged
@@ -276,3 +277,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5b78e622115b4c4ebbd90f0543e5376, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &2912874090207945249
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8698173691911221153}
+  m_Material: {fileID: 13400000, guid: 045c6fe4007e44a8aa71a6f6f6da63f0, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.55, y: 0.55, z: 0.2}
+  m_Center: {x: 0, y: 0, z: 0}

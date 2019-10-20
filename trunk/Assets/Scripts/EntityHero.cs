@@ -222,54 +222,63 @@ public class EntityHero : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        GameObject obj = collision.gameObject;
-        if(obj!= null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        Vector3 _normalFloor = new Vector3(0, 1, 0);
+        ContactPoint cp = collision.GetContact(0);
+        if(cp.normal == _normalFloor)
         {
-            Vector3 _velocity = this.d_rigidbody.velocity;
-
-            if (_velocity.y >= 12.0)
-            {
-                Debug.Log("坠落");
-            }
-            else
-            {
-                Debug.Log("站稳");
-            }
-
-            // 碰到了地板，站在地板上
-            this.d_isFlying = false;
-
-            // 水平速度归0
+            // 速度归0
             this.d_rigidbody.velocity = new Vector3(0, 0, 0);
         }
-        if (obj != null && (obj.name.Equals(ConfigWord.Entity_ner_l) || obj.name.Equals(ConfigWord.Entity_ner_l)))
-        {
-            // 碰到左边和右边的墙，水平速度归0
-            // 不归0的话会在边界颤抖
 
-            Vector3 _velocity = this.d_rigidbody.velocity;
 
-            // 水平速度归0
-            this.d_rigidbody.velocity = new Vector3(0, 0, 0);
-        }
+        //GameObject obj = collision.gameObject;
+        //if(obj!= null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        //{
+        //    Vector3 _velocity = this.d_rigidbody.velocity;
+
+        //    if (_velocity.y >= 12.0)
+        //    {
+        //        Debug.Log("坠落");
+        //    }
+        //    else
+        //    {
+        //        Debug.Log("站稳");
+        //    }
+
+        //    // 碰到了地板，站在地板上
+        //    this.d_isFlying = false;
+
+        //    // 水平速度归0
+        //    this.d_rigidbody.velocity = new Vector3(0, 0, 0);
+        //}
+        //if (obj != null && (obj.name.Equals(ConfigWord.Entity_ner_l) || obj.name.Equals(ConfigWord.Entity_ner_l)))
+        //{
+        //    // 碰到左边和右边的墙，水平速度归0
+        //    // 不归0的话会在边界颤抖
+
+        //    Vector3 _velocity = this.d_rigidbody.velocity;
+
+        //    // 水平速度归0
+        //    this.d_rigidbody.velocity = new Vector3(0, 0, 0);
+        //}
     }
     void OnCollisionExit(Collision collision)
     {
-        GameObject obj = collision.gameObject;
-        if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
-        {
-            // 离开了地板
-            this.d_isFlying = true;
-        }
+        //GameObject obj = collision.gameObject;
+        //if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        //{
+        //    // 离开了地板
+        //    // this.d_isFlying = true;
+        //}
     }
     void OnCollisionStay(Collision collision)
     {
-        GameObject obj = collision.gameObject;
-        if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
-        {
-            // 碰到了地板，站在地板上
-            this.d_isFlying = false;
-        }
+        //GameObject obj = collision.gameObject;
+        //if (obj != null && obj.name.Equals(ConfigWord.Entity_ner_t))
+        //{
+        //    // 碰到了地板，站在地板上
+        //    // this.d_isFlying = false;
+        //}
     }
 
     //
